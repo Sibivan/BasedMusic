@@ -38,3 +38,32 @@ class PostTests(TestCase):
         self.assertTrue(new_instrument.stronbox)
         self.assertTrue(new_instrument.medonbox)
         self.assertTrue(new_instrument.caponbox)
+
+    def test_delete_instrument(self):
+        """
+        Тест проверяет удаление записи: сначала считает количество, удаляет и проверяет уменьшение.
+        """
+        # Добавляем тестовый объект, если в базе нет записей
+        Instrument.objects.create(
+            types='Бас-гитара',
+            manufacturer='Gibson',
+            isonbase=True,
+            stronbox=False,
+            medonbox=True,
+            caponbox=False
+        )
+
+        # Фиксируем текущее количество объектов
+        initial_count = Instrument.objects.count()
+        self.assertGreaterEqual(initial_count, 1)
+
+        # Удаляем запись
+        instrument_to_delete = Instrument.objects.first()
+        response = self.client.post(reverse('delete', kwargs={'pk': instrument_to_delete.pk}))
+
+        # Проверяем редирект после удаления
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, '/database_view')
+
+        # Проверяем, что количество записей уменьшилось на 1
+        self.assertEqual(Instrument.objects.count(), initial_count - 1)
