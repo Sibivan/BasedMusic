@@ -1,0 +1,61 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>BasedMusic</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'basedapp/css/main.css' %}">
+</head>
+    <body>
+        <div class="container">
+        <h1 class="text-center">Welcome to BasedMusic</h1>
+        <form action="{% url 'database' %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="instrument_type">Выберите тип инструмента:</label>
+                <select id="instrument_type" name="instrument_type" class="form-control">
+                    <option value="Акустическая гитара">Акустическая гитара</option>
+                    <option value="Бас-гитара">Бас-гитара</option>
+                    <option value="Электрогитара">Электрогитара</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="instrument_manufacturer">Введите производителя инструмента:</label>
+                <input type="text" id="instrument_manufacturer" name="instrument_manufacturer" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="cover">Загрузите фото инструмента:</label>
+                <input type="file" id="cover" name="cover" class="form-control">
+            </div>
+            <div class="form-group">
+                <div class="form-check">
+                    <input type="radio" id="instock" name="instock" value="yes" class="form-check-input">
+                    <label for="instock" class="form-check-label">Инструмент будет завезён сразу</label>
+                </div>
+                <div class="form-check">
+                    <input type="radio" id="notinstock" name="instock" value="no" class="form-check-input">
+                    <label for="notinstock" class="form-check-label">Инструмент будет завезён позже</label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Что идёт в комплекте?</label>
+                <div class="form-check">
+                    <input type="checkbox" id="strings" class="form-check-input" name="strings">
+                    <label for="strings" class="form-check-label">Струны</label>
+                </div>
+                <div class="form-check">
+                    <input type="checkbox" id="mediator" class="form-check-input" name="mediator">
+                    <label for="mediator" class="form-check-label">Медиатор</label>
+                </div>
+                <div class="form-check">
+                    <input type="checkbox" id="capidaster" class="form-check-input" name="capidaster">
+                    <label for="capidaster" class="form-check-label">Капидастр</label>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Добавить</button>
+        </form>
+        <a href="{% url 'database' %}"><button type="submit" class="btn btn-primary">Смотреть каталог</button></a>
+    </div>
+    </body>
+</html>

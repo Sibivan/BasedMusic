@@ -1,0 +1,49 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>BasedMusic</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'basedapp/css/main.css' %}">
+</head>
+    <body>
+        <div class="container">
+            <div class="features">
+                <h1>Наш ассортимент</h1>
+                {% if data %}
+                    {% for el in data %}
+                        <div class="form-group">
+                            {% if el.cover %}
+                                <img src="{{ el.cover.url }}" alt="{{ el.types }}">
+                            {% else %}
+                                <h3>Изображение не доступно</h3>
+                            {% endif %}
+                            <h3>{{ el.types }}</h3>
+                            <h3>{{ el.manufacturer }}</h3>
+                            {% if el.isonbase is True %}
+                            <h3>Имеется на базе в данный момент</h3>
+                            {% else %}
+                            <h3>В данный момент отсутствует на базе</h3>
+                            {% endif %}
+                            {% if el.stronbox is True %}
+                            <h3>В комплекте идут дополнительные струны</h3>
+                            {% endif %}
+                            {% if el.medonbox is True %}
+                            <h3>В комплекте идёт медиатор</h3>
+                            {% endif %}
+                            {% if el.caponbox is True %}
+                            <h3>В комплекте идёт капидастр</h3>
+                            {% endif %}
+                            <a href="{% url 'update' el.id %}"><button type="submit" class="btn btn-submit">Редактировать</button></a>
+                            <a href="{% url 'delete' el.id %}"><button type="submit" class="alert alert-danger">Удалить</button></a>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <h3>Товаров нет</h3>
+                {% endif %}
+                <a href="{% url 'index' %}"><button type="submit" class="btn btn-primary">Назад</button></a>
+            </div>
+        </div>
+    </body>
+</html>
